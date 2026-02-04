@@ -1,0 +1,26 @@
+---
+description: Supabase DB 설계, RPC 함수 사용, 보안(RLS) 관련 기술 표준
+globs: supabase/**/*, lib/supabase/**/*, app/api/**/*
+alwaysApply: false
+---
+# Supabase Technical Standards
+
+## 1. Database Interactions
+
+- **Atomic Operations:** 점수 계산 및 레이팅 업데이트와 같이 데이터 무결성이 중요한 작업은 반드시 **Database RPC (PostgreSQL Functions)**를 호출하여 처리한다. 클라이언트나 Next.js API Route에서 개별적으로 `update`를 여러 번 호출하지 않는다.
+- **Type Safety:** 모든 Supabase 쿼리는 `Database` 타입 정의(Generated Types)를 사용하여 타입 안전성을 보장한다. `any` 타입 사용을 엄격히 금지한다.
+
+## 2. Security (RLS)
+
+- **Zero Trust:** 모든 테이블은 `ENABLE ROW LEVEL SECURITY`가 설정되어야 한다.
+- **Service Role:** `service_role` 키(Admin 권한)는 오직 Edge Functions나 백엔드 로직에서만 제한적으로 사용하며, 클라이언트 사이드 코드에는 절대 노출하지 않는다.
+
+## 3. Data Fetching Pattern
+
+- **Server Components:** 가능한 한 서버 컴포넌트(`createClient` - cookies)에서 데이터를 미리 fetching(Prefetching)하여 Hydration Boundary로 넘기는 패턴을 선호한다.
+- **Client Components:** 클라이언트에서 데이터가 필요할 경우 반드시 `TanStack Query`를 래퍼로 사용하여 캐싱과 로딩 상태를 관리한다. `supabase.from().select()`를 `useEffect` 안에서 직접 호출하지 않는다.
+
+## 4. Specific Logic Constraints (Project TakuRating)
+
+- **Match Result:** 경기 결과 등록은 오직 `register_match_result` RPC 함수를 통해서만 수행한다.
+- **Rating History:** 한 번의 경기는 반드시 2개의 `rating_history` row(승자/패자)를 생성해야 한다.

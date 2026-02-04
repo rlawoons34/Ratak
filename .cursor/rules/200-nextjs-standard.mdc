@@ -1,0 +1,52 @@
+---
+description: Next.js 14(App Router), React, TailwindCSS, Accessibility 코딩 표준 및 가이드라인
+globs: app/**/*.{ts,tsx}, components/**/*.{ts,tsx}, lib/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Next.js & React Coding Standards
+
+## 1. Coding Style & Naming Conventions
+
+- **File Naming:** Always use `kebab-case` for component and utility filenames (e.g., `my-component.tsx`, `auth-helper.ts`).
+- **Component Naming:** Use `PascalCase` for component names (e.g., `MyComponent`).
+- **Variables & Functions:** Use `camelCase`. Constants should use `const` instead of `function` keyword (e.g., `const toggle = () => ...`).
+- **Event Handlers:** Must start with a `handle` prefix (e.g., `handleClick`, `handleKeyDown`).
+- **Early Returns:** Use early returns whenever possible to reduce nesting and improve readability.
+
+## 2. Component Architecture (Next.js 14)
+
+- **Server Components (RSC):** Default to Server Components. Do NOT add `'use client'` unless the component strictly requires:
+  - Event listeners (`onClick`, `onChange`)
+  - React Hooks (`useState`, `useEffect`, `useRef`)
+  - Browser-only APIs
+- **Client Boundary:** Isolate client logic into small, leaf components. Keep the parent as a Server Component.
+- **Data Fetching:**
+  - **Server Side:** Fetch directly in RSC using `await`.
+  - **Client Side:** MUST use `TanStack Query` (`useQuery`). **DO NOT use `useEffect` for data fetching.**
+  - **Loading/Error:** Always implement `isLoading` and `isError` states for client-side fetching.
+
+## 3. Styling (Tailwind CSS)
+
+- **No Inline Styles:** Always use Tailwind classes. Avoid the `style={{ ... }}` tag.
+- **Class Merging:** Use the `cn(...)` utility (shadcn/ui standard) for conditional classes.
+  - *Bad:* `` className={`btn ${isActive ? 'active' : ''}`} ``
+  - *Good:* `className={cn("btn", isActive && "active")}`
+- **Semantic HTML:** Use semantic tags (`<main>`, `<section>`, `<article>`, `<button>`) instead of generic `<div>`s.
+
+## 4. Accessibility (A11y)
+
+- **Interactive Elements:**
+  - Any non-button element acting as a button must have:
+    - `tabIndex={0}`
+    - `role="button"` (or appropriate role)
+    - `onKeyDown` handler (for Enter/Space support) in addition to `onClick`.
+  - Always provide `aria-label` for icon-only buttons.
+- **Images:** Always provide meaningful `alt` text for `NextImage` components.
+
+## 5. Strict React Syntax (No Svelte/Vue patterns)
+
+- Use `className` instead of `class`.
+- Use `onClick` instead of `on:click`.
+- Use `htmlFor` instead of `for` in labels.
+- Do not use ternary operators inside class strings if it reduces readability; use `cn()` instead.
