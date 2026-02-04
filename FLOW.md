@@ -1,3 +1,13 @@
+# TakuRating System Architecture & Logic Flows
+
+이 문서는 **TakuRating(대학 탁구 레이팅 시스템)**의 데이터베이스 구조, 핵심 로직 처리 흐름, 그리고 사용자 경험(UX) 설계를 시각화한 다이어그램 모음입니다.
+
+---
+
+## 1. Entity Relationship Diagram (ERD)
+Supabase 데이터베이스의 스키마 구조입니다. `PLAYERS` 테이블을 중심으로 학교, 경기 기록, 레이팅 히스토리가 연결되며, **무결성**을 위해 모든 참조는 Foreign Key로 관리됩니다.
+
+'''mermaid
 erDiagram
     %% TakuRating Database Schema based on PRD v3.0
 
@@ -64,7 +74,7 @@ erDiagram
         timestamp created_at
     }
 
-    sequenceDiagram
+sequenceDiagram
     autonumber
     actor Admin as 관리자 (Admin)
     participant Client as Next.js Client (/admin/results)
@@ -102,7 +112,7 @@ erDiagram
     Client->>Client: React Query invalidate(['rankings'])
     Client-->>Admin: 성공 메시지 & 랭킹 자동 갱신
 
-    graph TD
+graph TD
     User((사용자))
     
     subgraph "Public Area (공용)"
@@ -140,7 +150,7 @@ erDiagram
     Login --"Admin Role 확인"--> MatchInput
     MatchInput --"RPC 제출"--> Home
 
-    flowchart TD
+flowchart TD
     Start("사용자: 선수 A, B 선택") --> Fetch["Server: 데이터 요청 (Direct + Triangle)"]
     
     subgraph "Triangle Logic Query (SQL)"
@@ -164,7 +174,7 @@ erDiagram
     Fetch --> CalcDirect
     Fetch --> CalcElo
 
-    subgraph "UI Rendering (v0)"
+    subgraph "UI Rendering"
         RenderElo["AI 승률 카드 표시"]
         RenderDirect["H2H 카드 표시"]
         RenderTri["공통 상대 테이블 표시\n(A결과 vs B결과)"]
