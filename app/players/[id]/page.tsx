@@ -1,19 +1,28 @@
 "use client"
 
+import { use } from "react"
 import Link from "next/link"
 import { ArrowLeft, Trophy, TrendingUp, TrendingDown } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { players } from "@/lib/mock-data"
+import { players, generatePlayerMatchHistory, generatePlayerTournamentHistory } from "@/lib/mock-data"
+import { RatingHistoryChart } from "@/components/player/rating-history-chart"
+import { MatchHistoryTable } from "@/components/player/match-history-table"
+import { TournamentHistoryList } from "@/components/player/tournament-history-list"
 
 interface PlayerDetailPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default function PlayerDetailPage({ params }: PlayerDetailPageProps) {
-  const player = players.find((p) => p.id === params.id)
+  const { id } = use(params)
+  const player = players.find((p) => p.id === id)
+  
+  // Generate match and tournament history for this player
+  const matchHistory = player ? generatePlayerMatchHistory(player.id) : []
+  const tournamentHistory = player ? generatePlayerTournamentHistory(player.id) : []
 
   if (!player) {
     return (
@@ -105,16 +114,33 @@ export default function PlayerDetailPage({ params }: PlayerDetailPageProps) {
           </div>
         </div>
 
-        {/* Work in Progress */}
-        <div className="bg-zinc-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-12 text-center">
-          <Trophy className="w-16 h-16 mx-auto text-zinc-600 mb-4" />
-          <h3 className="text-xl font-bold text-white mb-2">
-            경기 히스토리 그래프 개발 중
-          </h3>
-          <p className="text-zinc-500">
-            레이팅 변화 그래프와 최근 경기 기록이 곧 추가됩니다.
-          </p>
-        </div>
+        {/* Rating History Chart */}
+        {matchHistory.length > 0 && (
+          <RatingHistoryChart matchHistory={matchHistory} />
+        )}
+
+        {/* Match History Table */}
+        {matchHistory.length > 0 && (
+          <MatchHistoryTable matchHistory={matchHistory} limit={10} />
+        )}
+
+        {/* Tournament History */}
+        {tournamentHistory.length > 0 && (
+          <TournamentHistoryList tournaments={tournamentHistory} />
+        )}
+
+        {/* No data message */}
+        {matchHistory.length === 0 && tournamentHistory.length === 0 && (
+          <div className="bg-zinc-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-12 text-center">
+            <Trophy className="w-16 h-16 mx-auto text-zinc-600 mb-4" />
+            <h3 className="text-xl font-bold text-white mb-2">
+              경기 기록이 없습니다
+            </h3>
+            <p className="text-zinc-500">
+              첫 경기를 등록하면 레이팅 변화 그래프가 표시됩니다.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )

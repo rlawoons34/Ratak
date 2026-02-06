@@ -82,8 +82,20 @@ Cursor must strictly adhere to the following stack. No experimental features unl
 2.  **`/auth` (Login):**
     * Supabase Email/Password Auth. Redirect to `/` on success.
 3.  **`/players/[id]` (Profile):**
-    * Rating History Graph (Recharts).
-    * Recent 5 Matches (Win/Loss Badges).
+    * **Header Info:**
+        * Display Player Name, University Division, and Club Division clearly at the top-left.
+        * Use distinct badges or typography for division info.
+    * **Rating Trend Graph (Recharts):**
+        * **Visual:** Line Chart with dots connected by lines.
+        * **Data Granularity:** Aggregate rating changes by **2-week intervals** to show long-term trends clearly.
+        * **Y-Axis:** Player Rating.
+    * **Match History List:**
+        * **Layout:** `[Player Name] [Score] : [Score] [Opponent Name (Current Rating)] [Post-Match Rating (+Delta)]`.
+        * **Example:** `김재훈 3 : 1 구동영(2120) 2100 (+23)`
+        * **Visual Coding:**
+            * **Win:** The row (or player block) uses a **Green** color scheme.
+            * **Loss:** The row (or player block) uses a **Red** color scheme.
+        * **Interaction:** Clicking the 'Opponent Name' must redirect to that opponent's profile page.
 4.  **`/compare` (Analysis):**
     * Select Player A & B.
     * Show: Direct H2H + Triangle Analysis + AI Prediction.

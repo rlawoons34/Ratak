@@ -3,11 +3,13 @@
 import Link from "next/link"
 import { TrendingUp, Zap } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import type { Match, Player } from "@/lib/mock-data"
+import type { Database } from "@/types/database"
+
+type PlayerStatistics = Database['public']['Views']['player_statistics']['Row']
 
 interface MonthlyInsightsProps {
-  biggestUpset: Match | null
-  topRiser: Player | null
+  biggestUpset: PlayerStatistics | null
+  topRiser: PlayerStatistics | null
 }
 
 export function MonthlyInsights({ biggestUpset, topRiser }: MonthlyInsightsProps) {
@@ -26,32 +28,28 @@ export function MonthlyInsights({ biggestUpset, topRiser }: MonthlyInsightsProps
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <Link 
-                    href={`/players/${biggestUpset.winnerId}`}
+                    href={`/players/${biggestUpset.id}`}
                     className="text-2xl md:text-3xl font-bold text-white hover:text-red-400 transition-colors"
                   >
-                    {biggestUpset.winnerName}
+                    {biggestUpset.name}
                   </Link>
-                  <Badge className="bg-green-500/20 text-green-400 border-green-500/30">승</Badge>
+                  <Badge className="bg-green-500/20 text-green-400 border-green-500/30">급상승</Badge>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="font-mono text-4xl md:text-5xl font-thin text-zinc-300">
-                    {biggestUpset.winnerRatingBefore}
+                    {biggestUpset.rating}
                   </span>
-                  <span className="text-zinc-600">vs</span>
-                  <span className="font-mono text-4xl md:text-5xl font-thin text-zinc-500">
-                    {biggestUpset.loserRatingBefore}
+                  <span className="text-green-400 font-mono text-xl">
+                    +{biggestUpset.rating_change_30d}
                   </span>
                 </div>
-                <Link
-                  href={`/players/${biggestUpset.loserId}`}
-                  className="text-lg text-zinc-400 hover:text-white transition-colors"
-                >
-                  vs {biggestUpset.loserName}
-                </Link>
+                <div className="text-lg text-zinc-400">
+                  {biggestUpset.school_name} · {biggestUpset.uni_division}
+                </div>
               </div>
               <div className="pt-4 border-t border-white/5">
                 <p className="text-sm text-zinc-500">
-                  레이팅 차이 <span className="text-red-400 font-mono">{biggestUpset.loserRatingBefore - biggestUpset.winnerRatingBefore}</span>점을 극복한 승리
+                  30일간 <span className="text-red-400 font-mono">+{biggestUpset.rating_change_30d}</span>점 상승
                 </p>
               </div>
             </div>
@@ -79,14 +77,14 @@ export function MonthlyInsights({ biggestUpset, topRiser }: MonthlyInsightsProps
                   {topRiser.name}
                 </Link>
                 <div className="flex items-center gap-3">
-                  <Badge className="bg-zinc-800 text-zinc-300 border-zinc-700">{topRiser.schoolShort}</Badge>
+                  <Badge className="bg-zinc-800 text-zinc-300 border-zinc-700">{topRiser.school_code}</Badge>
                   <span className="text-zinc-500">현재</span>
                   <span className="font-mono text-2xl text-zinc-300">{topRiser.rating}</span>
                 </div>
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="font-mono text-5xl md:text-6xl font-thin text-green-400">
-                  +{topRiser.ratingChange}
+                  +{topRiser.rating_change_30d}
                 </span>
                 <span className="text-zinc-500 text-sm">pts</span>
               </div>

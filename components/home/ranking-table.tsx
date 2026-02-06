@@ -19,10 +19,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import type { Player } from "@/lib/mock-data"
+import type { Database } from "@/types/database"
+
+type PlayerStatistics = Database['public']['Views']['player_statistics']['Row']
 
 interface RankingTableProps {
-  players: Player[]
+  players: PlayerStatistics[]
 }
 
 export function RankingTable({ players }: RankingTableProps) {
@@ -30,14 +32,14 @@ export function RankingTable({ players }: RankingTableProps) {
   const [uniDivisionFilter, setUniDivisionFilter] = useState<string>("all")
   const [clubDivisionFilter, setClubDivisionFilter] = useState<string>("all")
 
-  const schools = [...new Set(players.map((p) => p.school))]
-  const uniDivisions = [...new Set(players.map((p) => p.uniDivision))]
-  const clubDivisions = [...new Set(players.map((p) => p.clubDivision))]
+  const schools = [...new Set(players.map((p) => p.school_name))]
+  const uniDivisions = [...new Set(players.map((p) => p.uni_division))]
+  const clubDivisions = [...new Set(players.map((p) => p.club_division))]
 
   const filteredPlayers = players
-    .filter((p) => schoolFilter === "all" || p.school === schoolFilter)
-    .filter((p) => uniDivisionFilter === "all" || p.uniDivision === uniDivisionFilter)
-    .filter((p) => clubDivisionFilter === "all" || p.clubDivision === clubDivisionFilter)
+    .filter((p) => schoolFilter === "all" || p.school_name === schoolFilter)
+    .filter((p) => uniDivisionFilter === "all" || p.uni_division === uniDivisionFilter)
+    .filter((p) => clubDivisionFilter === "all" || p.club_division === clubDivisionFilter)
     .sort((a, b) => b.rating - a.rating)
 
   return (
@@ -136,17 +138,17 @@ export function RankingTable({ players }: RankingTableProps) {
                         {player.name}
                       </span>
                       <Badge variant="outline" className="text-xs bg-transparent border-zinc-700 text-zinc-500 hidden sm:inline-flex">
-                        {player.schoolShort}
+                        {player.school_code}
                       </Badge>
                     </Link>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Badge className="bg-zinc-800/80 text-zinc-400 border-zinc-700 text-xs">
-                        {player.uniDivision}
+                        {player.uni_division}
                       </Badge>
                       <span className="text-xs text-zinc-600 hidden sm:inline">
-                        {player.clubDivision}조
+                        {player.club_division}조
                       </span>
                     </div>
                   </TableCell>
@@ -158,15 +160,15 @@ export function RankingTable({ players }: RankingTableProps) {
                   <TableCell className="text-right">
                     <span
                       className={`font-mono font-medium ${
-                        player.ratingChange > 0
+                        player.rating_change_30d > 0
                           ? "text-green-400"
-                          : player.ratingChange < 0
+                          : player.rating_change_30d < 0
                           ? "text-red-400"
                           : "text-zinc-600"
                       }`}
                     >
-                      {player.ratingChange > 0 ? "+" : ""}
-                      {player.ratingChange}
+                      {player.rating_change_30d > 0 ? "+" : ""}
+                      {player.rating_change_30d}
                     </span>
                   </TableCell>
                 </TableRow>

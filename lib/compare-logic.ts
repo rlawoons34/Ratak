@@ -34,8 +34,8 @@ export interface EloPrediction {
 export function calculateDirectH2H(playerAId: string, playerBId: string): DirectH2H {
   const relevantMatches = matches.filter(
     (match) =>
-      (match.playerAId === playerAId && match.playerBId === playerBId) ||
-      (match.playerAId === playerBId && match.playerBId === playerAId)
+      (match.winnerId === playerAId && match.loserId === playerBId) ||
+      (match.winnerId === playerBId && match.loserId === playerAId)
   )
 
   const playerAWins = relevantMatches.filter(
@@ -71,15 +71,15 @@ export function calculateTriangleAnalysis(
     // Player A vs Opponent 경기 찾기
     const playerAMatches = matches.filter(
       (match) =>
-        (match.playerAId === playerAId && match.playerBId === opponentId) ||
-        (match.playerAId === opponentId && match.playerBId === playerAId)
+        (match.winnerId === playerAId && match.loserId === opponentId) ||
+        (match.winnerId === opponentId && match.loserId === playerAId)
     )
 
     // Player B vs Opponent 경기 찾기
     const playerBMatches = matches.filter(
       (match) =>
-        (match.playerAId === playerBId && match.playerBId === opponentId) ||
-        (match.playerAId === opponentId && match.playerBId === playerBId)
+        (match.winnerId === playerBId && match.loserId === opponentId) ||
+        (match.winnerId === opponentId && match.loserId === playerBId)
     )
 
     // 둘 다 이 상대와 경기한 적이 있는 경우만 공통 상대로 처리

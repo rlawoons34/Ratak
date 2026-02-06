@@ -192,7 +192,6 @@ export default function ComparePage() {
                         <CommandItem
                           key={player.id}
                           value={player.name}
-                          className="text-white hover:bg-zinc-800"
                           onSelect={() => {
                             setPlayerA(player);
                             setOpenA(false);

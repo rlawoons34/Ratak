@@ -205,3 +205,22 @@ flowchart TD
     CalcDirect --> RenderDirect
     ProcessTriangle --> RenderTri
 ```
+
+## 5. Player Detail Logic Flow (Client-Side Rendering)
+이 로직은 `/players/[id]` 페이지 진입 시 실행됩니다.
+
+1. **Data Fetching:**
+    * Fetch `Player Info` (Name, Divisions, Current Rating).
+    * Fetch `Match History` (Date, Opponent Name, Scores, Result, Rating Change).
+    
+2. **Graph Data Processing (Bi-weekly):**
+    * Raw Match History 데이터를 날짜순 정렬.
+    * 데이터를 2주 단위(Bi-weekly)로 그룹화.
+    * 각 기간의 **마지막 레이팅**을 추출하여 그래프 데이터 포인트 생성. (점과 점 사이를 선으로 연결)
+
+3. **History List Rendering:**
+    * **Condition Check:** Am I the winner?
+    * **IF Winner:** Apply Green Style. Display `Me (Score) : (Score) Opponent`.
+    * **IF Loser:** Apply Red Style. Display `Me (Score) : (Score) Opponent`.
+    * **Link:** Wrap Opponent Name with `<Link href="/players/[opponent_id]">`.
+    
