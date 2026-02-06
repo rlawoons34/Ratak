@@ -5,10 +5,22 @@
 
 import { createClient } from '@supabase/supabase-js'
 import { Database } from '../types/database'
+import * as dotenv from 'dotenv'
+import * as path from 'path'
+
+// .env.local 파일 로드
+dotenv.config({ path: path.join(process.cwd(), '.env.local') })
 
 // 환경변수에서 Supabase 설정 가져오기
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE!
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ 환경변수가 설정되지 않았습니다.')
+  console.error('NEXT_PUBLIC_SUPABASE_URL:', supabaseUrl)
+  console.error('SUPABASE_SERVICE_ROLE:', supabaseServiceKey ? '설정됨' : '없음')
+  process.exit(1)
+}
 
 const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey)
 
@@ -18,22 +30,21 @@ const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey)
 
 const schools = [
   { name: '한양대학교', code: 'HYU' },
-  { name: '연세대학교', code: 'YU' },
-  { name: '고려대학교', code: 'KU' },
-  { name: '서울대학교', code: 'SNU' },
-  { name: '성균관대학교', code: 'SKU' },
+  { name: '한양대학교 ERICA', code: 'HYU_ERICA' }
 ]
 
 const players = [
-  { name: '김민수', schoolCode: 'HYU', uniDivision: '1부', clubDivision: 'A', rating: 1650 },
-  { name: '이준호', schoolCode: 'HYU', uniDivision: '1부', clubDivision: 'A', rating: 1580 },
-  { name: '박서연', schoolCode: 'HYU', uniDivision: '2부', clubDivision: 'B', rating: 1520 },
-  { name: '정유진', schoolCode: 'YU', uniDivision: '1부', clubDivision: 'A', rating: 1620 },
-  { name: '강태양', schoolCode: 'YU', uniDivision: '1부', clubDivision: 'A', rating: 1590 },
-  { name: '송민재', schoolCode: 'KU', uniDivision: '1부', clubDivision: 'A', rating: 1680 },
-  { name: '한지우', schoolCode: 'KU', uniDivision: '1부', clubDivision: 'A', rating: 1640 },
-  { name: '오현우', schoolCode: 'SNU', uniDivision: '1부', clubDivision: 'A', rating: 1720 },
-  { name: '조성훈', schoolCode: 'SKU', uniDivision: '1부', clubDivision: 'A', rating: 1600 },
+  { name: '강은석', schoolCode: 'HYU_ERICA', uniDivision: '대학 2부', clubDivision: 0, rating: 2001 },
+  { name: '구동영', schoolCode: 'HYU_ERICA', uniDivision:'대학 2부', clubDivision: 0, rating: 2000 },
+  { name: '정승한', schoolCode: 'HYU_ERICA', uniDivision: '대학 3부', clubDivision: 0, rating: 1999 },
+  { name: '김도현', schoolCode: 'HYU_ERICA', uniDivision: '대학 3부', clubDivision: 1, rating: 1650 },
+  { name: '이준호', schoolCode: 'HYU_ERICA', uniDivision: '1부', clubDivision: 1, rating: 1580 },
+  { name: '박서연', schoolCode: 'HYU_ERICA', uniDivision: '2부', clubDivision: 2, rating: 1520 },
+  { name: '최지훈', schoolCode: 'HYU_ERICA', uniDivision: '1부', clubDivision: 0, rating: 1700 },
+  { name: '정유진', schoolCode: 'HYU_ERICA', uniDivision: '1부', clubDivision: 1, rating: 1620 },
+  { name: '강태양', schoolCode: 'HYU_ERICA', uniDivision: '1부', clubDivision: 1, rating: 1590 },
+  { name: '윤서아', schoolCode: 'HYU_ERICA', uniDivision: '2부', clubDivision: 2, rating: 1480 },
+  { name: '송민재', schoolCode: 'HYU_ERICA', uniDivision: '1부', clubDivision: 0, rating: 1680 },
 ]
 
 const tournaments = [

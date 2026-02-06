@@ -1,105 +1,240 @@
-# 탁구 랭킹 트래커 (Table Tennis Rank Tracker)
+# 🏓 TakuRating - 대학 탁구 레이팅 시스템
 
-AI 기반 선수 분석 및 승률 예측 시스템입니다.
+**"직감이 아닌 데이터로, 당신의 탁구를 증명하세요."**
 
-## 주요 기능
+USATT(미국 탁구 협회) 공식 알고리즘 기반의 실시간 랭킹 및 데이터 분석 플랫폼입니다.
 
-### 1. 직접 대결 기록 (Direct H2H)
-- 두 선수 간 역대 전적 확인
-- 승/패 통계 및 승률 시각화
+## ✨ 주요 기능
 
-### 2. 공통 상대 분석 (Triangle Logic)
-- 공통으로 상대한 선수들의 경기 결과 분석
-- 삼각 관계 로직을 통한 상대적 실력 평가
-- 순환 관계 (A > B > C > A) 감지 및 표시
+### 1. 🏆 실시간 랭킹 시스템
+- USATT 공식 레이팅 알고리즘 적용
+- 학교별, 대학부별, 동아리부별 다중 필터링
+- 경기 결과 입력 즉시 랭킹 자동 업데이트
 
-### 3. AI 승률 예측 (Elo-based Prediction)
-- 표준 Elo 레이팅 공식 사용
-- 확률 기반 승률 계산 및 시각화
-- 실시간 예측 결과 제공
+### 2. ⚔️ 전적 비교 & 승률 예측 (Compare)
+- **직접 대결 (H2H)**: 두 선수 간 역대 전적
+- **삼각 비교 (Triangle Logic)**: 공통 상대 분석을 통한 간접 비교
+- **AI 승률 예측**: Elo 기반 확률적 승률 계산
+- **순환 관계 감지**: A > B > C > A 자동 탐지
 
-## 기술 스택
+### 3. 👤 선수 프로필
+- 레이팅 변화 그래프
+- 전체 경기 히스토리
+- 상세 통계 (승률, 총 경기 수, 30일 변화량)
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
+### 4. 🏆 토너먼트 시스템
+- 리그전, 오픈 대회, 선수권 관리
+- 대회별 성적 기록
+- 개인별 대회 히스토리
+
+### 5. 🏫 학교 랭킹
+- 학교별 평균 레이팅 산출
+- 학교 대항전 통계
+- 소속 선수 목록 관리
+
+## 🛠️ 기술 스택
+
+- **Frontend**: Next.js 15 (App Router), TypeScript, Tailwind CSS
+- **Backend**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
 - **UI Components**: Shadcn UI
 - **Icons**: Lucide React
+- **레이팅 시스템**: USATT Official Algorithm
+- **보안**: Row Level Security (RLS)
 
-## 시작하기
+## 🚀 시작하기
 
-### 설치
+### 1. 환경 설정
 
-\`\`\`bash
+```bash
+# 패키지 설치
 npm install
-\`\`\`
 
-### 개발 서버 실행
+# 환경변수 설정
+cp .env.local.example .env.local
+# .env.local 파일에 Supabase 정보 입력
+```
 
-\`\`\`bash
+### 2. 데이터베이스 설정
+
+```bash
+# Supabase SQL Editor에서 마이그레이션 실행
+# 1. supabase/migrations/001_initial_schema.sql
+# 2. supabase/migrations/002_usatt_rating_function.sql
+```
+
+자세한 설명: [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)
+
+### 3. 데이터 입력
+
+```bash
+# TypeScript 스크립트로 샘플 데이터 입력
+npm install tsx dotenv
+npx tsx scripts/seed-data.ts
+```
+
+자세한 설명: [DATA_INPUT_GUIDE.md](./DATA_INPUT_GUIDE.md)
+
+### 4. 개발 서버 실행
+
+```bash
 npm run dev
-\`\`\`
+```
 
-브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 확인하세요.
+브라우저에서 [http://localhost:3000](http://localhost:3000) 접속
 
-### 빌드
+### 5. 빌드 & 배포
 
-\`\`\`bash
+```bash
 npm run build
 npm start
-\`\`\`
+```
 
-## 프로젝트 구조
+## 📁 프로젝트 구조
 
-\`\`\`
-├── app/
-│   ├── compare/
-│   │   └── page.tsx          # H2H 비교 페이지
-│   ├── layout.tsx
-│   ├── page.tsx               # 홈 페이지
-│   └── globals.css
+```
+├── app/                       # Next.js App Router
+│   ├── (auth)/               # 인증 관련 페이지
+│   ├── (dashboard)/          # 메인 대시보드
+│   ├── admin/                # 관리자 페이지
+│   ├── compare/              # 전적 비교 페이지
+│   ├── players/              # 선수 프로필
+│   ├── schools/              # 학교 랭킹
+│   └── tournaments/          # 토너먼트
 ├── components/
-│   └── ui/                    # Shadcn UI 컴포넌트
+│   ├── ui/                   # Shadcn UI 컴포넌트
+│   └── ...                   # 커스텀 컴포넌트
 ├── lib/
-│   ├── mock-data-advanced.ts  # 모의 데이터
-│   ├── compare-logic.ts       # 비교 로직
-│   └── utils.ts
-└── package.json
-\`\`\`
+│   ├── supabase.ts           # Supabase 클라이언트
+│   ├── compare-logic.ts      # 전적 비교 로직
+│   └── utils.ts              # 유틸리티 함수
+├── supabase/
+│   └── migrations/           # 데이터베이스 마이그레이션
+├── scripts/
+│   ├── seed-data.ts          # 데이터 입력 스크립트
+│   └── import-from-csv.ts    # CSV 가져오기
+├── types/
+│   └── database.ts           # TypeScript 타입 정의
+└── data/
+    ├── schools.csv           # 학교 데이터
+    └── players.csv           # 선수 데이터
+```
 
-## Elo 예측 공식
+## 🧮 레이팅 시스템
 
-\`\`\`
+### USATT 레이팅 알고리즘
+
+- **초기 레이팅**: 1500점
+- **점수 변동**: 레이팅 차이에 따라 8~50점
+- **언더독 보너스**: 낮은 선수가 이기면 추가 점수
+- **자동 계산**: 경기 입력 즉시 트리거로 업데이트
+
+### Elo 승률 예측 공식
+
+```
 P(A wins) = 1 / (1 + 10^((RatingB - RatingA) / 400))
-\`\`\`
+```
 
 - `P(A wins)`: 선수 A가 이길 확률
 - `RatingA`: 선수 A의 Elo 레이팅
 - `RatingB`: 선수 B의 Elo 레이팅
 
-## 데이터 구조
+## 📊 데이터베이스 구조
 
-### Player
-- `id`: 선수 고유 ID
+### 핵심 테이블
+
+**profiles** - 사용자 계정
+- `id`: UUID (auth.users 연동)
+- `role`: 'player' 또는 'admin'
+- `display_name`: 표시 이름
+
+**players** - 선수 데이터
+- `id`: UUID
 - `name`: 선수 이름
-- `elo`: Elo 레이팅 (1200-2400)
-- `avatar`: 아바타 이미지 URL
+- `school_id`: 소속 학교
+- `uni_division`: 대학부 (0부/1부/2부/3부)
+- `club_division`: 동아리부 (-2부~8부, INTEGER)
+- `rating`: 레이팅 점수 (기본 1500)
+- `user_id`: profiles 연동 (선택)
 
-### Match
-- `id`: 경기 고유 ID
-- `playerAId`: 플레이어 A ID
-- `playerBId`: 플레이어 B ID
-- `winnerId`: 승자 ID
-- `date`: 경기 날짜
+**schools** - 학교
+- `id`: UUID
+- `name`: 학교명
+- `code`: 학교 코드 (고유)
 
-## 향후 개선 사항
+**matches** - 경기 기록
+- `id`: UUID
+- `winner_id`: 승자 ID
+- `loser_id`: 패자 ID
+- `score`: 점수 (예: "3-1")
+- `delta_winner`: 승자 레이팅 변화
+- `delta_loser`: 패자 레이팅 변화
+- `event_id`: 토너먼트 연동 (선택)
 
-- [ ] 실제 데이터베이스 연동
-- [ ] 경기 기록 추가 기능
-- [ ] 선수 프로필 페이지
-- [ ] 전체 랭킹 리스트
-- [ ] 통계 대시보드
-- [ ] 다크 모드 토글
+**rating_history** - 레이팅 히스토리
+- `match_id`: 경기 ID
+- `player_id`: 선수 ID
+- `rating_before`: 경기 전 레이팅
+- `rating_after`: 경기 후 레이팅
+- `delta`: 변화량
+
+**tournaments** - 토너먼트
+- `name`: 대회명
+- `location`: 장소
+- `event_date`: 일시
+- `tournament_type`: 'league', 'open', 'championship'
+
+### 뷰 & 함수
+
+**player_statistics** - 선수 통계 (자동 계산)
+- 총 경기 수, 승/패, 승률
+- 최근 30일 레이팅 변화
+
+**register_match_result()** - 경기 등록 RPC 함수
+**calculate_usatt_delta()** - 레이팅 계산 함수
+**get_player_match_history()** - 경기 히스토리 조회
+
+## 📚 문서
+
+- [사용자 가이드 (상세)](./USER_GUIDE.md) - 전체 기능 설명
+- [사용자 가이드 (간단)](./USER_GUIDE_SIMPLE.md) - 핵심 기능 요약
+- [데이터 입력 가이드](./DATA_INPUT_GUIDE.md) - 데이터 입력 방법 5가지
+- [Supabase 설정 가이드](./SUPABASE_SETUP.md) - 데이터베이스 설정
+- [변경 사항](./CHANGELOG_USER_GUIDE.md) - 가이드 업데이트 내역
+
+## 🔧 주요 특징
+
+### ✅ 계정 없이도 참여 가능
+선수 등록만으로 즉시 경기 참여. 원하면 나중에 계정 연동.
+
+### ✅ 자동화된 레이팅 시스템
+경기 입력 즉시 USATT 알고리즘으로 자동 계산 및 업데이트.
+
+### ✅ 이중 부서 관리
+대학부(0/1/2/3부) + 동아리부(-2~8부) 독립 랭킹.
+
+### ✅ 삼각 비교 로직
+한 번도 안 붙어본 상대도 공통 상대 분석으로 예측.
+
+### ✅ 토너먼트 지원
+대회 정보 관리 및 개인별 대회 기록.
+
+## 🚧 개발 상태
+
+| 기능 | 상태 |
+|------|------|
+| 데이터베이스 스키마 | ✅ 완료 |
+| 레이팅 시스템 | ✅ 완료 |
+| 인증 시스템 | ✅ 완료 |
+| 랭킹 페이지 | 🚧 진행중 |
+| 전적 비교 | 🚧 진행중 |
+| 선수 프로필 | 🚧 진행중 |
+| 관리자 페이지 | 🚧 진행중 |
+| 토너먼트 | 📋 계획됨 |
+
+## 🤝 기여하기
+
+버그 제보 및 기능 제안은 Issues를 통해 부탁드립니다.
 
 ## 라이선스
 

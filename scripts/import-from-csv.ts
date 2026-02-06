@@ -11,9 +11,21 @@ import { createClient } from '@supabase/supabase-js'
 import { Database } from '../types/database'
 import * as fs from 'fs'
 import * as path from 'path'
+import * as dotenv from 'dotenv'
+
+// .env.local 파일 로드
+dotenv.config({ path: path.join(process.cwd(), '.env.local') })
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE!
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ 환경변수가 설정되지 않았습니다.')
+  console.error('NEXT_PUBLIC_SUPABASE_URL:', supabaseUrl)
+  console.error('SUPABASE_SERVICE_ROLE:', supabaseServiceKey ? '설정됨' : '없음')
+  process.exit(1)
+}
+
 const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey)
 
 // CSV 파싱 함수
@@ -66,7 +78,7 @@ async function importFromCSV() {
         name: row[0],
         school_id: schoolMap.get(row[1])!,
         uni_division: row[2],
-        club_division: row[3],
+        club_division: parseInt(row[3]), // ← INTEGER로 변환
         rating: parseInt(row[4]) || 1500,
       }))
 

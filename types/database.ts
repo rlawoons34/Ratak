@@ -70,7 +70,7 @@ export interface Database {
           name: string
           school_id: string
           uni_division: string
-          club_division: string
+          club_division: number
           rating: number
           user_id: string | null
           created_at: string
@@ -81,7 +81,7 @@ export interface Database {
           name: string
           school_id: string
           uni_division: string
-          club_division: string
+          club_division: number
           rating?: number
           user_id?: string | null
           created_at?: string
@@ -92,7 +92,7 @@ export interface Database {
           name?: string
           school_id?: string
           uni_division?: string
-          club_division?: string
+          club_division?: number
           rating?: number
           user_id?: string | null
           created_at?: string
@@ -312,7 +312,7 @@ export interface Database {
           school_name: string
           school_code: string
           uni_division: string
-          club_division: string
+          club_division: number
           rating: number
           user_id: string | null
           total_matches: number
