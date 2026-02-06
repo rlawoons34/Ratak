@@ -30,11 +30,11 @@ interface RankingTableProps {
 export function RankingTable({ players }: RankingTableProps) {
   const [schoolFilter, setSchoolFilter] = useState<string>("all")
   const [uniDivisionFilter, setUniDivisionFilter] = useState<string>("all")
-  const [clubDivisionFilter, setClubDivisionFilter] = useState<string>("all")
+  const [clubDivisionFilter, setClubDivisionFilter] = useState<string | number>("all")
 
   const schools = [...new Set(players.map((p) => p.school_name))]
   const uniDivisions = [...new Set(players.map((p) => p.uni_division))]
-  const clubDivisions = [...new Set(players.map((p) => p.club_division))]
+  const clubDivisions = [...new Set(players.map((p) => p.club_division))].sort((a, b) => a - b)
 
   const filteredPlayers = players
     .filter((p) => schoolFilter === "all" || p.school_name === schoolFilter)
@@ -91,15 +91,18 @@ export function RankingTable({ players }: RankingTableProps) {
                 </SelectContent>
               </Select>
 
-              <Select value={clubDivisionFilter} onValueChange={setClubDivisionFilter}>
+              <Select 
+                value={clubDivisionFilter.toString()} 
+                onValueChange={(value) => setClubDivisionFilter(value === "all" ? "all" : parseInt(value))}
+              >
                 <SelectTrigger className="w-[120px] bg-zinc-800/50 border-white/5 text-zinc-300 rounded-xl">
                   <SelectValue placeholder="동아리부" />
                 </SelectTrigger>
                 <SelectContent className="bg-zinc-900 border-white/10">
                   <SelectItem value="all">전체 동아리</SelectItem>
                   {clubDivisions.map((div) => (
-                    <SelectItem key={div} value={div}>
-                      {div}조
+                    <SelectItem key={div} value={div.toString()}>
+                      {div}부
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -148,7 +151,7 @@ export function RankingTable({ players }: RankingTableProps) {
                         {player.uni_division}
                       </Badge>
                       <span className="text-xs text-zinc-600 hidden sm:inline">
-                        {player.club_division}조
+                        {player.club_division}부
                       </span>
                     </div>
                   </TableCell>

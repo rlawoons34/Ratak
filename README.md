@@ -4,6 +4,12 @@
 
 USATT(미국 탁구 협회) 공식 알고리즘 기반의 실시간 랭킹 및 데이터 분석 플랫폼입니다.
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/ratak)
+
+## 🌐 라이브 데모
+
+🚀 **배포 URL**: [https://your-project.vercel.app](https://your-project.vercel.app) (배포 후 업데이트)
+
 ## ✨ 주요 기능
 
 ### 1. 🏆 실시간 랭킹 시스템
@@ -41,31 +47,42 @@ USATT(미국 탁구 협회) 공식 알고리즘 기반의 실시간 랭킹 및 �
 - **Icons**: Lucide React
 - **레이팅 시스템**: USATT Official Algorithm
 - **보안**: Row Level Security (RLS)
+- **패키지 매니저**: pnpm (빠르고 효율적)
 
-## 🚀 시작하기
+## 🚀 빠른 시작 (로컬 개발)
 
-### 1. 환경 설정
+> **참고**: 이 프로젝트는 `pnpm`을 사용합니다. [pnpm 설치 가이드](./PNPM_GUIDE.md)
+
+### 1. Repository Clone
+
+```bash
+git clone https://github.com/your-username/ratak.git
+cd ratak
+```
+
+### 2. 환경 설정
 
 ```bash
 # 패키지 설치
-npm install
+pnpm install
 
 # 환경변수 설정
-cp .env.local.example .env.local
+cp .env.example .env.local
 # .env.local 파일에 Supabase 정보 입력
 ```
 
-### 2. 데이터베이스 설정
+### 3. 데이터베이스 설정
 
 ```bash
 # Supabase SQL Editor에서 마이그레이션 실행
 # 1. supabase/migrations/001_initial_schema.sql
 # 2. supabase/migrations/002_usatt_rating_function.sql
+# 3. MIGRATE_CLUB_DIVISION_TO_INTEGER.sql (선택)
 ```
 
 자세한 설명: [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)
 
-### 3. 데이터 입력
+### 4. 샘플 데이터 입력
 
 ```bash
 # TypeScript 스크립트로 샘플 데이터 입력
@@ -75,20 +92,36 @@ npx tsx scripts/seed-data.ts
 
 자세한 설명: [DATA_INPUT_GUIDE.md](./DATA_INPUT_GUIDE.md)
 
-### 4. 개발 서버 실행
+### 5. 개발 서버 실행
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 브라우저에서 [http://localhost:3000](http://localhost:3000) 접속
 
-### 5. 빌드 & 배포
+---
 
-```bash
-npm run build
-npm start
-```
+## 🌐 Vercel 배포
+
+### 원클릭 배포
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/ratak)
+
+### 수동 배포
+
+1. **Vercel 계정 연결**: https://vercel.com
+2. **Repository Import**: GitHub repository 선택
+3. **환경변수 설정**: 
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+4. **Deploy 클릭**
+
+자세한 가이드: [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)
+
+---
+
+## 🔧 주요 특징
 
 ## 📁 프로젝트 구조
 
@@ -196,13 +229,14 @@ P(A wins) = 1 / (1 + 10^((RatingB - RatingA) / 400))
 
 ## 📚 문서
 
-- [사용자 가이드 (상세)](./USER_GUIDE.md) - 전체 기능 설명
-- [사용자 가이드 (간단)](./USER_GUIDE_SIMPLE.md) - 핵심 기능 요약
-- [데이터 입력 가이드](./DATA_INPUT_GUIDE.md) - 데이터 입력 방법 5가지
-- [Supabase 설정 가이드](./SUPABASE_SETUP.md) - 데이터베이스 설정
-- [변경 사항](./CHANGELOG_USER_GUIDE.md) - 가이드 업데이트 내역
+- **패키지 매니저**: [pnpm 가이드](./PNPM_GUIDE.md) | [마이그레이션](./PNPM_MIGRATION.md)
+- **배포 가이드**: [Vercel 배포](./VERCEL_DEPLOYMENT.md) | [빠른 시작](./DEPLOY_QUICK_START.md)
+- **사용자 가이드**: [상세](./USER_GUIDE.md) | [간단](./USER_GUIDE_SIMPLE.md)
+- **관리자 매뉴얼**: [Admin Guide](./ADMIN_MANUAL.md)
+- **개발자 가이드**: [데이터 입력](./DATA_INPUT_GUIDE.md) | [Supabase 설정](./SUPABASE_SETUP.md)
+- **변경 사항**: [Changelog](./CHANGELOG_USER_GUIDE.md)
 
-## 🔧 주요 특징
+## 🚀 빠른 시작 (로컬 개발)
 
 ### ✅ 계정 없이도 참여 가능
 선수 등록만으로 즉시 경기 참여. 원하면 나중에 계정 연동.
