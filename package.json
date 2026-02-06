@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@10.28.2",
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-collapsible": "^1.1.12",

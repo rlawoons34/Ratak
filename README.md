@@ -230,11 +230,11 @@ P(A wins) = 1 / (1 + 10^((RatingB - RatingA) / 400))
 ## 📚 문서
 
 - **패키지 매니저**: [pnpm 가이드](./PNPM_GUIDE.md) | [마이그레이션](./PNPM_MIGRATION.md)
-- **배포 가이드**: [Vercel 배포](./VERCEL_DEPLOYMENT.md) | [빠른 시작](./DEPLOY_QUICK_START.md)
+- **배포 가이드**: [Vercel 배포](./VERCEL_DEPLOYMENT.md) | [빠른 시작](./DEPLOY_QUICK_START.md) | [환경변수](./VERCEL_ENV_VARIABLES.md)
 - **사용자 가이드**: [상세](./USER_GUIDE.md) | [간단](./USER_GUIDE_SIMPLE.md)
 - **관리자 매뉴얼**: [Admin Guide](./ADMIN_MANUAL.md)
 - **개발자 가이드**: [데이터 입력](./DATA_INPUT_GUIDE.md) | [Supabase 설정](./SUPABASE_SETUP.md)
-- **변경 사항**: [Changelog](./CHANGELOG_USER_GUIDE.md)
+- **변경 사항**: [Changelog](./CHANGELOG_USER_GUIDE.md) | [동아리부 마이그레이션](./CLUB_DIVISION_MIGRATION_REPORT.md)
 
 ## 🚀 빠른 시작 (로컬 개발)
 

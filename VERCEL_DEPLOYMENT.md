@@ -55,19 +55,20 @@ Install Command: pnpm install
 
 **Environment Variables** 섹션에서 다음 변수들을 추가:
 
-#### 필수 환경변수
+#### 필수 환경변수 (2개)
 
 | Variable Name | Value | Where to find |
 |---------------|-------|---------------|
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://lrmsxxlwfjsvrkfxwhdt.supabase.co` | Supabase Dashboard → Settings → API |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `eyJhbGci...` | Supabase Dashboard → Settings → API → anon public |
 
-#### 선택 환경변수 (Admin 기능용)
+#### 권장 환경변수 (1개) - Admin 기능용
 
-| Variable Name | Value |
-|---------------|-------|
-| `SUPABASE_SERVICE_ROLE` | `eyJhbGci...` (service_role key) |
-| `SUPABASE_PROJECT_ID` | `lrmsxxlwfjsvrkfxwhdt` |
+| Variable Name | Value | 용도 |
+|---------------|-------|------|
+| `SUPABASE_SERVICE_ROLE` | `eyJhbGci...` (service_role key) | 경기 등록, 선수 관리 등 Admin 기능 |
+
+**⚠️ 중요:** `SUPABASE_SERVICE_ROLE`은 서버 사이드 전용입니다. 클라이언트 코드에서 절대 사용하지 마세요!
 
 **입력 방법:**
 1. Key 입력: `NEXT_PUBLIC_SUPABASE_URL`
