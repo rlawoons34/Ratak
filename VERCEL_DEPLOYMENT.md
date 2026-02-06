@@ -44,10 +44,30 @@ Framework: Next.js
 ```
 Build Command: pnpm run build
 Output Directory: .next
-Install Command: pnpm install
+Install Command: pnpm install --frozen-lockfile
 ```
 
 **⚠️ 그대로 두면 됩니다!** (자동 설정됨)
+
+#### pnpm 버전 고정 🔒
+프로젝트에 다음 설정이 포함되어 있습니다:
+
+1. **`package.json`**
+   ```json
+   {
+     "packageManager": "pnpm@10.28.2"
+   }
+   ```
+
+2. **`vercel.json`**
+   ```json
+   {
+     "buildCommand": "pnpm run build",
+     "installCommand": "pnpm install --frozen-lockfile"
+   }
+   ```
+
+이 설정들은 Vercel이 정확히 **pnpm 10.28.2**를 사용하도록 보장합니다.
 
 ---
 

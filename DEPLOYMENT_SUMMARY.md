@@ -17,7 +17,8 @@
 
 ### 3. Vercel 배포 준비
 - ✅ `.env.example` 생성 (주석 포함)
-- ✅ `vercel.json` 설정
+- ✅ `vercel.json` 설정 (pnpm 버전 고정)
+- ✅ `package.json`에 packageManager 필드 추가
 - ✅ 빌드 테스트 성공 (pnpm run build)
 - ✅ 환경변수 가이드 작성
 
@@ -108,10 +109,11 @@ git push origin main
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (필수)
 - `SUPABASE_SERVICE_ROLE` (Admin 기능용, 권장)
 
-### ✅ pnpm 자동 감지
+### ✅ pnpm 버전 고정 (10.28.2)
 - Vercel이 `pnpm-lock.yaml` 자동 인식
-- `package.json`의 `packageManager` 필드 확인
-- 자동으로 pnpm 사용
+- `package.json`의 `packageManager: "pnpm@10.28.2"` 필드
+- `vercel.json`의 `installCommand` 설정
+- 로컬과 동일한 버전 사용 보장
 
 ### ✅ 보안
 - `.env.local`은 Git에 포함 안 됨

@@ -115,7 +115,12 @@ pnpm run dev
 3. **환경변수 설정**: 
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE` (권장)
 4. **Deploy 클릭**
+
+**📌 pnpm 버전 고정**: 프로젝트는 `pnpm@10.28.2`를 사용하도록 설정되어 있습니다.
+- `package.json`의 `packageManager` 필드
+- `vercel.json`의 빌드 설정
 
 자세한 가이드: [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)
 
