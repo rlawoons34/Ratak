@@ -8,7 +8,7 @@ USATT(미국 탁구 협회) 공식 알고리즘 기반의 실시간 랭킹 및 �
 
 ## 🌐 라이브 데모
 
-🚀 **배포 URL**: [https://your-project.vercel.app](https://your-project.vercel.app) (배포 후 업데이트)
+🚀 **배포 URL**: [https://your-project.vercel.app](https://your-project.vercel.app) (배포 후 업데이트) <<현재 vercel 무료버전이 종료되어 라이브 데모 체험불가 합니다
 
 ## ✨ 주요 기능
 
